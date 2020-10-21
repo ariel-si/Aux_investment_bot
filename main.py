@@ -42,10 +42,11 @@ def tela_operacional(email, senha):
     txt_porcLucro=Entry(Frame_Main,font=("times new roman",12),bg="snow")
     txt_porcLucro.place(x=300,y=200, width=100,height=35)
 
-    lbl_porcLucro=Label(Frame_Main,text="Tipo de Moeda: ",font=("Goudy od Style", 12, "bold"),fg= "black",bg="white")
-    lbl_porcLucro.place(x=90,y=250)
-    txt_porcLucro=Entry(Frame_Main,font=("times new roman",12),bg="snow")
-    txt_porcLucro.place(x=300,y=250, width=100,height=35)
+    lbl_tipoMoeda=Label(Frame_Main,text="Tipo de Moeda: ",font=("Goudy od Style", 12, "bold"),fg= "black",bg="white")
+    lbl_tipoMoeda.place(x=90,y=250)
+    txt_tipoMoeda=Entry(Frame_Main,font=("times new roman",12),bg="snow")
+    txt_tipoMoeda.place(x=300,y=250, width=100,height=35)
+    #txt_tipoMoeda.text("EURUSD")
 
     lbl_tipoConta=Label(Frame_Main, text="Tipo de Conta", font=("Goudy od Style", 17, "bold"), fg="black", bg="white")
     lbl_tipoConta.place(x=90,y=360)
@@ -65,23 +66,23 @@ def tela_operacional(email, senha):
     venda=Radiobutton(Frame_Main, font=("Goudy old style", 12), bg="white", text="Venda      ",  variable=var2, value=1, command=sel)
     venda.place(x=400,y=430, width=90,height=35)
 
-    aplicar_btn=Button(janela, text="Aplicar", bg="Black", fg="White", font=("Goudy old style",15), command=lambda:aplicar(email, senha))
+    aplicar_btn=Button(janela, text="Aplicar", bg="Black", fg="White", font=("Goudy old style",15), command= lambda: aplicar(email, senha, txt_porcLucro.get(), txt_valEntrada.get(), txt_tipoMoeda.get()))
     aplicar_btn.place(x=650,y=600)
 
     janela.title("AIB - Login")
     janela.geometry("950x750+100+50")
 
 
-def aplicar(e, s):
+def aplicar(e, s, pl, et, m):
 
     api = IQ_Option(e, s)
     api.connect()
 
-    porcentagem_lucro = 10
-    entrada = 2.0
-    moeda = "EURUSD"
+    porcentagem_lucro = float(pl)
+    entrada = float(et)
+    moeda = m #  EURUSD
     tipoConta = "PRACTICE"  # PRACTICE / REAL
-    operacao = "call" #put / call
+    operacao = "put" #put / call
     timeframe = 1
 
     valor_minimo = round(float(entrada) * (float(porcentagem_lucro / 100)), 2)
